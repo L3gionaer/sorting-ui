@@ -1,5 +1,5 @@
 import { genRandomNumbers } from '../helpers/sorting-helpers';
-import { SortingAlgorithm, SortingStatus } from '../helpers/sorting-types';
+import { SortingAlgorithm, SortingStatus, type SortingMetaData } from '../helpers/sorting-types';
 import { writable } from 'svelte/store';
 
 export const allSortingAlgorithms: SortingAlgorithm[] = Object.values(SortingAlgorithm);
@@ -12,7 +12,7 @@ export function getSortingInterval() {
   return _interval;
 }
 
-function createSortingAlgorithmsActive() {
+function createSortingActive() {
   const { subscribe, update } = writable<Map<SortingAlgorithm, boolean>>(
     new Map(allSortingAlgorithms.map((algo) => [algo, true]))
   );
@@ -65,6 +65,60 @@ function createNumbersToSort() {
   };
 }
 
-export const sortingAlgorithmsActive = createSortingAlgorithmsActive();
+function createSortingMetaData() {
+  const { subscribe, update } = writable<Map<SortingAlgorithm, SortingMetaData>>(
+    new Map(
+      allSortingAlgorithms.map((algo, i) => [
+        algo,
+        {
+          history: [],
+          sortedNumbers: 0
+        }
+      ])
+    )
+  );
+
+  return {
+    subscribe,
+    updateRanking: (sortingAlgorithm: SortingAlgorithm, sortedNumbers: number) => {
+      update((metaData) => {
+        //TODO could be easier, less code
+        const prevMetaData = metaData.get(sortingAlgorithm);
+        if (prevMetaData) {
+          metaData.set(sortingAlgorithm, { ...prevMetaData, sortedNumbers });
+        }
+
+        // return map in the order of the current rank
+        const newMetaData = new Map<SortingAlgorithm, SortingMetaData>();
+        [...metaData.entries()]
+          .sort((a, b) => b[1].sortedNumbers - a[1].sortedNumbers)
+          .map((data) => data[0])
+          .map((algo) => {
+            const prevMetaData = metaData.get(algo);
+            if (prevMetaData) {
+              newMetaData.set(algo, prevMetaData);
+            }
+          });
+
+        return newMetaData;
+      });
+    },
+    updateHistory: (sortingAlgorithm: SortingAlgorithm, prevIndex: number, curIndex: number) =>
+      update((metaData) => {
+        const prevMetaData = metaData.get(sortingAlgorithm);
+        if (prevMetaData) {
+          metaData.set(sortingAlgorithm, {
+            ...prevMetaData,
+            history: [...prevMetaData.history, { prevIndex, curIndex }]
+          });
+        }
+
+        return metaData;
+      })
+  };
+}
+
+export const sortingActive = createSortingActive();
 export const sortingStatus = createSortingStatus();
 export const numbersToSort = createNumbersToSort();
+export const sortingMetaData = createSortingMetaData();

@@ -14,7 +14,7 @@
         swapCount,
         compareCount,
         isSorted,
-    } = useSorting(sortingAlgorithmFn);
+    } = useSorting(sortingAlgorithmFn, sortingAlgorithm);
 </script>
 
 <style>

@@ -1,19 +1,19 @@
 <script lang="ts">
     import { Chip } from '@svelteuidev/core';
     import { SortingAlgorithm } from '../helpers/sorting-types';
-    import { sortingAlgorithmsActive } from '../store/global.state';
+    import { sortingActive } from '../store/global.state';
 
     export let sortingAlgorithm: SortingAlgorithm;
 
     function toggleSortingAlgorithm() {
-        sortingAlgorithmsActive.toggleAlgorithm(sortingAlgorithm);
+        sortingActive.toggleAlgorithm(sortingAlgorithm);
     }
 </script>
 
 <Chip 
     variant="outline" 
     on:change={() => toggleSortingAlgorithm()} 
-    checked={!!$sortingAlgorithmsActive.get(sortingAlgorithm)}
+    checked={!!$sortingActive.get(sortingAlgorithm)}
 >
     {sortingAlgorithm}
 </Chip>

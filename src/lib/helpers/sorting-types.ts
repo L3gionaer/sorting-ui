@@ -1,8 +1,18 @@
 export enum SortingAlgorithm {
   BUBBLE_SORT = 'bubbleSort',
+  QUICK_SORT = 'quickSort',
   SELECTION_SORT = 'selectionSort',
-  INSERTION_SORT = 'insertionSort',
-  QUICK_SORT = 'quickSort'
+  INSERTION_SORT = 'insertionSort'
+}
+
+export interface SortingMetaData {
+  history: SortHistory[];
+  sortedNumbers: number;
+}
+
+export interface SortHistory {
+  prevIndex: number;
+  curIndex: number;
 }
 
 export type onCompareFn = (num1: number, num2: number) => AsyncGenerator<CompareEventArgs>;
@@ -52,6 +62,8 @@ export interface CompareEventArgs {
 
 export interface SwapEventArgs {
   type: SortingEventType.SWAP;
+  prevIndex: number;
+  curIndex: number;
   array: number[];
 }
 

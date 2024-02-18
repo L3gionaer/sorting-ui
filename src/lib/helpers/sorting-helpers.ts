@@ -26,7 +26,7 @@ export async function* onCompare(
 ): AsyncGenerator<CompareEventArgs> {
   yield { type: SortingEventType.COMPARE, prevIndex, curIndex };
 
-  await delay();
+  await delay(getSortingInterval());
   await resolveWhenPlaying;
 }
 
@@ -41,9 +41,9 @@ export async function* onSwap(
   array[prevIndex] = array[curIndex];
   array[curIndex] = temp;
 
-  yield { type: SortingEventType.SWAP, array };
+  yield { type: SortingEventType.SWAP, prevIndex, curIndex, array };
 
-  await delay();
+  await delay(200);
   await resolveWhenPlaying;
 }
 
@@ -54,6 +54,6 @@ export async function* afterSorting(
   yield { type: SortingEventType.AFTER_SORTING, curIndex: i, isRange };
 }
 
-function delay(): Promise<void> {
-  return new Promise((res) => setTimeout(res, getSortingInterval()));
+function delay(interval: number): Promise<void> {
+  return new Promise((res) => setTimeout(res, interval));
 }
