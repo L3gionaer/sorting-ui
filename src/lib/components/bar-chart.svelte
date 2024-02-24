@@ -32,20 +32,22 @@
     }
 </style>
 
-<Card>
-    <p>{sortingAlgorithm}</p>
-    <div>compares: {$compareCount}</div>
-    <div>swapped: {$swapCount}</div>
-    <div class="chart">
-        {#each $sortingNumbers as num, i}
-            <div 
-                class="item" 
-                style:height="{num * 20 + 'px'}" 
-                style:background-color="{
-                    isSorted(i) || $allSorted ? 'green' : (i === $currentIndex ? 'yellow' : i === $prevIndex ? 'orange': 'grey' )}"
-            >
-                {num}
-            </div>
-        {/each}
-    </div>
-</Card>
+<a href={"/" + sortingAlgorithm}>
+    <Card>
+        <p>{sortingAlgorithm}</p>
+        <div>compares: {$compareCount}</div>
+        <div>swapped: {$swapCount}</div>
+        <div class="chart">
+            {#each $sortingNumbers as num, i}
+                <div 
+                    class="item" 
+                    style:height="{num * 20 + 'px'}" 
+                    style:background-color="{
+                        isSorted(i) || $allSorted ? 'green' : (i === $currentIndex ? 'yellow' : i === $prevIndex ? 'orange': 'grey' )}"
+                >
+                    {num}
+                </div>
+            {/each}
+        </div>
+    </Card>
+</a>

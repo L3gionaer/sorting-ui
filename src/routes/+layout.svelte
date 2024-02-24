@@ -36,4 +36,6 @@
   <div class:hide={selectedTab === 'stats'}>
     <Charts />
   </div>
+
+  <slot />
 </div>
