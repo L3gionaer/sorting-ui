@@ -1,3 +1,4 @@
+//TODO renamce number1 or prevNumber etc to source and target
 export enum SortingAlgorithm {
   BUBBLE_SORT = 'bubbleSort',
   QUICK_SORT = 'quickSort',
@@ -6,13 +7,19 @@ export enum SortingAlgorithm {
 }
 
 export interface SortingMetaData {
-  history: SortHistory[];
+  history: SwapHistory[];
   sortedNumbers: number;
 }
 
-export interface SortHistory {
-  prevIndex: number;
-  curIndex: number;
+export interface SwapHistory {
+  prevNumber: {
+    index: number;
+    value: number;
+  } 
+  curNumber: {
+    index: number;
+    value: number;
+  } 
 }
 
 export type onCompareFn = (num1: number, num2: number) => AsyncGenerator<CompareEventArgs>;

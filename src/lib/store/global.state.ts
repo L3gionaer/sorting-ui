@@ -1,5 +1,5 @@
 import { genRandomNumbers } from '../helpers/sorting-helpers';
-import { SortingAlgorithm, SortingStatus, type SortingMetaData } from '../helpers/sorting-types';
+import { SortingAlgorithm, SortingStatus, type SortingMetaData, type SwapHistory } from '../helpers/sorting-types';
 import { writable } from 'svelte/store';
 
 export const allSortingAlgorithms: SortingAlgorithm[] = Object.values(SortingAlgorithm);
@@ -103,13 +103,13 @@ function createSortingMetaData() {
         return newMetaData;
       });
     },
-    updateHistory: (sortingAlgorithm: SortingAlgorithm, prevIndex: number, curIndex: number) =>
+    updateHistory: (sortingAlgorithm: SortingAlgorithm, swap: SwapHistory) =>
       update((metaData) => {
         const prevMetaData = metaData.get(sortingAlgorithm);
         if (prevMetaData) {
           metaData.set(sortingAlgorithm, {
             ...prevMetaData,
-            history: [...prevMetaData.history, { prevIndex, curIndex }]
+            history: [...prevMetaData.history, { ...swap }]
           });
         }
 
