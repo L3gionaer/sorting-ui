@@ -9,6 +9,7 @@ import {
 } from '../helpers/sorting-types';
 import { resolver, setResolver, onCompare, onSwap, afterSorting } from '../helpers/sorting-helpers';
 import { sortingStatus, numbersToSort, sortingMetaData } from '../store/global.state';
+import { updateSortHistory } from '$lib/helpers/meta-data-helpers';
 
 export function useSorting(sortingAlgorithmFn: sortingFn, sortingAlgorithm: SortingAlgorithm) {
   const _sortingNumbers = writable<number[]>([]);
@@ -82,7 +83,7 @@ export function useSorting(sortingAlgorithmFn: sortingFn, sortingAlgorithm: Sort
           case SortingEventType.SWAP:
             _sortingNumbers.set(eventArg.array);
             _swapCount.update((count) => count + 1);
-            sortingMetaData.updateHistory(sortingAlgorithm, eventArg.prevIndex, eventArg.curIndex);
+            updateSortHistory(sortingAlgorithm, eventArg);
             break;
           case SortingEventType.AFTER_SORTING:
             setSortedIndexes(eventArg.curIndex, eventArg.isRange);
