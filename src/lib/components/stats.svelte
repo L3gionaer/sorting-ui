@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { SortingMetaData, SortingAlgorithm } from "$lib/helpers/sorting-types";
   import { sortingMetaData } from "$lib/store/global.state";
 
   //TODO more info

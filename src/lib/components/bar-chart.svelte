@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Card } from '@svelteuidev/core';
+    import * as Card from "$lib/components/ui/card";
     import { useSorting } from '../hooks/useSorting';
 	import type { SortingAlgorithm, sortingFn } from '../helpers/sorting-types';
 
@@ -33,7 +33,7 @@
 </style>
 
 <a href={"/" + sortingAlgorithm}>
-    <Card>
+    <Card.Root>
         <p>{sortingAlgorithm}</p>
         <div>compares: {$compareCount}</div>
         <div>swapped: {$swapCount}</div>
@@ -49,5 +49,5 @@
                 </div>
             {/each}
         </div>
-    </Card>
+    </Card.Root>
 </a>

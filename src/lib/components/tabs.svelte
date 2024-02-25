@@ -1,24 +1,24 @@
 <script lang="ts">
-  import { Tabs } from '@svelteuidev/core';
+  import * as Tabs from "$lib/components/ui/tabs";
   import { createEventDispatcher } from "svelte";
   import { TabName } from '$lib/helpers/global-types';
 
   const dispatch = createEventDispatcher<{ tabSwitch: { name: TabName } }>();
 
-  let active = 0;
   const tabNames = Object.values(TabName)
 
   function onTabChange(event) {
-    const { index } = event.detail;
-
+    console.log('event', event)
     dispatch('tabSwitch', {
-      name: tabNames[index]
+      name: event
     })
   }
 </script>
 
-<Tabs bind:active on:change={onTabChange}>
-  {#each tabNames as tabName}
-    <Tabs.Tab label={tabName}></Tabs.Tab>
-  {/each}
-</Tabs>
+<Tabs.Root onValueChange={(event) => onTabChange(event)}>
+  <Tabs.List>
+    {#each tabNames as tabName}
+      <Tabs.Trigger value={tabName}>{tabName}</Tabs.Trigger>
+    {/each}
+  </Tabs.List>
+</Tabs.Root>

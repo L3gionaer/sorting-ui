@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Chip } from '@svelteuidev/core';
+    import { Checkbox } from "$lib/components/ui/checkbox";
+    import { Label } from "$lib/components/ui/label";
     import { SortingAlgorithm } from '../helpers/sorting-types';
     import { sortingActive } from '../store/global.state';
 
@@ -10,10 +11,8 @@
     }
 </script>
 
-<Chip 
-    variant="outline" 
-    on:change={() => toggleSortingAlgorithm()} 
+<Checkbox
+    onCheckedChange={() => toggleSortingAlgorithm()} 
     checked={!!$sortingActive.get(sortingAlgorithm)}
->
-    {sortingAlgorithm}
-</Chip>
+/>
+<Label>{sortingAlgorithm}</Label>

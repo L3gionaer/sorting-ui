@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button } from '@svelteuidev/core';
+    import { Button } from "$lib/components/ui/button";
     import { SortingStatus } from '../helpers/sorting-types';
     import { numbersToSort, setSortingInterval, sortingStatus } from '../store/global.state';
     import ChartChips from './chart-chips.svelte';
