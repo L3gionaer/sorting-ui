@@ -1,5 +1,10 @@
 import { genRandomNumbers } from '../helpers/sorting-helpers';
-import { SortingAlgorithm, SortingStatus, type SortingMetaData, type SwapHistory } from '../helpers/sorting-types';
+import {
+  SortingAlgorithm,
+  SortingStatus,
+  type SortingMetaData,
+  type SwapHistory
+} from '../helpers/sorting-types';
 import { writable } from 'svelte/store';
 
 export const allSortingAlgorithms: SortingAlgorithm[] = Object.values(SortingAlgorithm);
@@ -25,7 +30,15 @@ function createSortingActive() {
 
         return algoMap;
       });
-    }
+    },
+    toggleAll: () =>
+      update((algoMap) => {
+        const allActive = [...algoMap.values()].every((val) => !!val);
+
+        [...algoMap.keys()].forEach((algo) => algoMap.set(algo, !allActive));
+
+        return algoMap;
+      })
   };
 }
 

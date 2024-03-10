@@ -8,15 +8,14 @@
   const tabNames = Object.values(TabName)
 
   function onTabChange(event) {
-    console.log('event', event)
     dispatch('tabSwitch', {
       name: event
     })
   }
 </script>
 
-<Tabs.Root onValueChange={(event) => onTabChange(event)}>
-  <Tabs.List>
+<Tabs.Root onValueChange={(event) => onTabChange(event)} class="w-[100%] mb-5">
+  <Tabs.List class="grid w-full grid-cols-2 gap-1">
     {#each tabNames as tabName}
       <Tabs.Trigger value={tabName}>{tabName}</Tabs.Trigger>
     {/each}

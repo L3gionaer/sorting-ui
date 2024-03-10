@@ -1,5 +1,6 @@
 <script lang="ts">
   import "../app.pcss";
+  import { ModeWatcher } from "mode-watcher";
   import Charts from '$lib/components/charts.svelte';
   import Controls from '$lib/components/controls.svelte';
   import Stats from '$lib/components/stats.svelte';
@@ -27,7 +28,8 @@
   }
 </style>
 
-<div>
+<ModeWatcher />
+<main>
   <Controls></Controls>
   <Tabs on:tabSwitch="{onTabSwitch}"></Tabs>
 
@@ -40,4 +42,4 @@
   </div>
 
   <slot></slot>
-</div>
+</main>

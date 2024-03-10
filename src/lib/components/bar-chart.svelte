@@ -24,7 +24,7 @@
     }
 
     .item {
-        width: 40px;
+        width: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -34,20 +34,26 @@
 
 <a href={"/" + sortingAlgorithm}>
     <Card.Root>
-        <p>{sortingAlgorithm}</p>
-        <div>compares: {$compareCount}</div>
-        <div>swapped: {$swapCount}</div>
-        <div class="chart">
-            {#each $sortingNumbers as num, i}
-                <div 
-                    class="item" 
-                    style:height="{num * 20 + 'px'}" 
-                    style:background-color="{
-                        isSorted(i) || $allSorted ? 'green' : (i === $currentIndex ? 'yellow' : i === $prevIndex ? 'orange': 'grey' )}"
-                >
-                    {num}
-                </div>
-            {/each}
-        </div>
+			<Card.Header class="flex-row space-y-0">
+				<Card.Title class="leading-0">{sortingAlgorithm}</Card.Title>
+				<div class="ml-auto mt-0">
+					<p>compares: {$compareCount}</p>
+					<p>swapped: {$swapCount}</p>
+				</div>
+			</Card.Header>
+        <Card.Content>
+            <div class="chart">
+                {#each $sortingNumbers as num, i}
+                    <div 
+                        class="item" 
+                        style:height="{num * 20 + 'px'}" 
+                        style:background-color="{
+                            isSorted(i) || $allSorted ? 'green' : (i === $currentIndex ? 'yellow' : i === $prevIndex ? 'orange': 'grey' )}"
+                    >
+                        {num}
+                    </div>
+                {/each}
+            </div>
+        </Card.Content>
     </Card.Root>
 </a>
