@@ -8,7 +8,7 @@ import {
   SortingAlgorithm
 } from '../helpers/sorting-types';
 import { resolver, setResolver, onCompare, onSwap, afterSorting } from '../helpers/sorting-helpers';
-import { sortingStatus, numbersToSort, sortingMetaData } from '../store/global.state';
+import { sortingStatus, numbersToSort, sortingMetaData } from '../store/sorting.state';
 import { updateSortHistory } from '$lib/helpers/meta-data-helpers';
 
 //TODO pause -> reset -> play BUGGY

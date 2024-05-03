@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { Button } from "$lib/components/ui/button";
+  import { Button } from '$lib/components/ui/button';
   import { SortingStatus } from '../helpers/sorting-types';
-  import { numbersToSort, setSortingInterval, sortingStatus } from '../store/global.state';
-  import AlgoMultiselect from "./algo-multiselect.svelte";
-  import ModeToggle from "./mode-toggle.svelte";
+  import { numbersToSort, setSortingInterval, sortingStatus } from '../store/sorting.state';
+  import AlgoMultiselect from './algo-multiselect.svelte';
+  import ModeToggle from './mode-toggle.svelte';
 
   function getStartStopText(state: SortingStatus) {
     switch (state) {
@@ -15,7 +15,7 @@
         return 'play';
       case SortingStatus.EMPTY_STATUS:
         return 'play';
-      }
+    }
   }
 
   function generate() {
@@ -24,6 +24,19 @@
     sortingStatus.set(SortingStatus.RESET);
   }
 </script>
+
+<section>
+  <Button on:click={() => setSortingInterval(200)}>Change interval</Button>
+  <Button on:click={() => sortingStatus.updateStatus($sortingStatus)}
+    >{getStartStopText($sortingStatus)}</Button
+  >
+  <Button on:click={() => sortingStatus.set(SortingStatus.RESET)}>reset</Button>
+  <Button on:click={() => generate()}>Generate</Button>
+  <AlgoMultiselect></AlgoMultiselect>
+  <div class="toggle_container">
+    <ModeToggle></ModeToggle>
+  </div>
+</section>
 
 <style lang="scss">
   section {
@@ -37,14 +50,3 @@
     }
   }
 </style>
-
-<section>
-  <Button on:click={() => setSortingInterval(200)}>Change interval</Button>
-  <Button on:click={() => sortingStatus.updateStatus($sortingStatus)}>{getStartStopText($sortingStatus)}</Button>
-  <Button on:click={() => sortingStatus.set(SortingStatus.RESET)}>reset</Button>
-  <Button on:click={() => generate()}>Generate</Button>
-  <AlgoMultiselect></AlgoMultiselect>
-  <div class="toggle_container">
-    <ModeToggle></ModeToggle>
-  </div>
-</section>

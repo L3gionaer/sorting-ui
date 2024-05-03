@@ -5,7 +5,7 @@ import {
   type AfterSortingEventArgs
 } from './sorting-types';
 
-import { getSortingInterval } from '../store/global.state';
+import { getSortingInterval } from '../store/sorting.state';
 
 export function genRandomNumbers() {
   return [...Array(12).keys()].map(() => Math.round(Math.random() * (10 - 1) + 1));

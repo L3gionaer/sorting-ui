@@ -1,6 +1,6 @@
 <script lang="ts">
-  import * as Table from "$lib/components/ui/table";
-  import { sortingMetaData } from "$lib/store/global.state";
+  import * as Table from '$lib/components/ui/table';
+  import { sortingMetaData } from '$lib/store/sorting.state';
 
   //TODO more info
 </script>

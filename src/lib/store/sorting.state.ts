@@ -9,6 +9,8 @@ import { writable } from 'svelte/store';
 
 export const allSortingAlgorithms: SortingAlgorithm[] = Object.values(SortingAlgorithm);
 
+export const selectedSortingAlgorithm = writable<SortingAlgorithm | undefined>();
+
 let _interval = 500;
 export function setSortingInterval(n: number) {
   _interval = n;
