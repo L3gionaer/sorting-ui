@@ -11,6 +11,9 @@ import { resolver, setResolver, onCompare, onSwap, afterSorting } from '../helpe
 import { sortingStatus, numbersToSort, sortingMetaData } from '../store/global.state';
 import { updateSortHistory } from '$lib/helpers/meta-data-helpers';
 
+//TODO pause -> reset -> play BUGGY
+// pause -> generate -> play BUGGY
+
 export function useSorting(sortingAlgorithmFn: sortingFn, sortingAlgorithm: SortingAlgorithm) {
   const _sortingNumbers = writable<number[]>([]);
   const _prevIndex = writable(0);
@@ -38,6 +41,7 @@ export function useSorting(sortingAlgorithmFn: sortingFn, sortingAlgorithm: Sort
   }
 
   function resetState() {
+    //setResolver();
     _sortingNumbers.set([...unsortedNumbers]);
     _prevIndex.set(0);
     _currentIndex.set(0);

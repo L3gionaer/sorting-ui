@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { base } from '$app/paths';
     import * as Card from "$lib/components/ui/card";
     import { useSorting } from '../hooks/useSorting';
 	import type { SortingAlgorithm, sortingFn } from '../helpers/sorting-types';
@@ -18,39 +19,41 @@
 </script>
 
 <style>
-    .chart {
-        display: flex;
-        align-items: flex-end;
-    }
-
-    .item {
-        width: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .bar {
         transition: height 200ms;
     }
 </style>
 
-<a href={"/" + sortingAlgorithm}>
-    <Card.Root>
-			<Card.Header class="flex-row space-y-0">
-				<Card.Title class="leading-0">{sortingAlgorithm}</Card.Title>
-				<div class="ml-auto mt-0">
-					<p>compares: {$compareCount}</p>
-					<p>swapped: {$swapCount}</p>
-				</div>
-			</Card.Header>
-        <Card.Content>
-            <div class="chart">
+<a href="{base}/{sortingAlgorithm}">
+    <Card.Root class="flex flex-col h-[400px]">
+		<Card.Header class="flex-row space-y-0">
+			<Card.Title class="leading-0">{sortingAlgorithm}</Card.Title>
+			<div class="ml-auto mt-0">
+				<p>compares: {$compareCount}</p>
+			    <p>swapped: {$swapCount}</p>
+			</div>
+		</Card.Header>
+        <Card.Content class="mt-auto">
+            <div class="flex items-end gap-2 border-b">
                 {#each $sortingNumbers as num, i}
-                    <div 
-                        class="item" 
-                        style:height="{num * 20 + 'px'}" 
-                        style:background-color="{
-                            isSorted(i) || $allSorted ? 'green' : (i === $currentIndex ? 'yellow' : i === $prevIndex ? 'orange': 'grey' )}"
-                    >
-                        {num}
+                    <div class="flex flex-col items-center">
+                        <p>{num}</p>
+                        <div 
+                            class="
+                                rounded-tr-md 
+                                rounded-tl-md 
+                                w-[50px] 
+                                bar 
+                                {isSorted(i) || $allSorted ? 'bg-green-600' : (i === $currentIndex ? 'bg-blue-600' : i === $prevIndex ? 'bg-yellow-600': 'bg-primary' )}" 
+                            style:height="{num * 20 + 'px'}" 
+                        ></div>
+                    </div>
+                {/each}
+            </div>
+            <div class="flex flex-row gap-2 pt-2">
+                {#each $sortingNumbers as _, i }
+                    <div class="w-[50px] flex justify-center">
+                        <p class="text-xs text-slate-400">{i}</p>
                     </div>
                 {/each}
             </div>
