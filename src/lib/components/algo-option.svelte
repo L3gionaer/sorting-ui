@@ -1,21 +1,17 @@
 <script lang="ts">
-  import { Checkbox } from '$lib/components/ui/checkbox';
-  import { Label } from '$lib/components/ui/label';
+  import { Checkbox } from './ui/checkbox';
+  import { Label } from './ui/label';
   import { SortingAlgorithm } from '../helpers/sorting-types';
-  import { sortingActive } from '../store/sorting.state';
+  import { activeSortingAlgorithmsState } from '../store/sorting-algorithms.state.svelte';
 
   export let sortingAlgorithm: SortingAlgorithm | 'all';
 
   function toggleSortingAlgorithm() {
     if (sortingAlgorithm === 'all') {
-      sortingActive.toggleAll();
+      activeSortingAlgorithmsState.toggleAllActive();
     } else {
-      sortingActive.toggleAlgorithm(sortingAlgorithm);
+      activeSortingAlgorithmsState.toggleActive(sortingAlgorithm);
     }
-  }
-
-  function getAllAlgosActive(algos: boolean[]) {
-    return algos.every((val) => !!val);
   }
 </script>
 
@@ -24,8 +20,8 @@
     <Checkbox
       onCheckedChange={() => toggleSortingAlgorithm()}
       checked={sortingAlgorithm === 'all'
-        ? !!getAllAlgosActive([...$sortingActive.values()])
-        : !!$sortingActive.get(sortingAlgorithm)}
+        ? !!activeSortingAlgorithmsState.allActive
+        : !!activeSortingAlgorithmsState.algorithms.get(sortingAlgorithm)}
     />
   </div>
   <Label>{sortingAlgorithm}</Label>

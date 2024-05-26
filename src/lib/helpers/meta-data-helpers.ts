@@ -1,13 +1,12 @@
-import { sortingMetaData } from '$lib/store/sorting.state';
+import { sortingHistoryState } from '../store/sorting-algorithms.state.svelte';
 import type { SortingAlgorithm, SwapEventArgs } from './sorting-types';
 
 export function updateSortHistory(sortingAlgorithm: SortingAlgorithm, swapArgs: SwapEventArgs) {
   const prevIndex = swapArgs.prevIndex;
   const curIndex = swapArgs.curIndex;
   const array = swapArgs.array;
-  console.log('prevIndex', prevIndex, 'curIndex', curIndex);
 
-  sortingMetaData.updateHistory(sortingAlgorithm, {
+  sortingHistoryState.updateHistory(sortingAlgorithm, {
     prevNumber: {
       index: prevIndex,
       value: array[curIndex]

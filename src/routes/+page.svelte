@@ -1,17 +1,16 @@
 <script lang="ts">
   import '../app.pcss';
   import { ModeWatcher } from 'mode-watcher';
-  import Charts from '$lib/components/charts.svelte';
-  import Controls from '$lib/components/controls.svelte';
-  import Stats from '$lib/components/stats.svelte';
-  import Tabs from '$lib/components/tabs.svelte';
-  import { TabName } from '$lib/helpers/global-types';
+  import Charts from '../lib/components/charts.svelte';
+  import Controls from '../lib/components/controls.svelte';
+  import Stats from '../lib/components/stats.svelte';
+  import Tabs from '../lib/components/tabs.svelte';
+  import { TabName } from '../lib/helpers/global-types';
   import AlgoDetails from '../lib/components/details/algo-details.svelte';
 
   let selectedTab = 'charts';
 
   function onTabSwitch(event: CustomEvent<{ name: TabName }>) {
-    console.log('switch', event);
     selectedTab = event.detail.name;
   }
 </script>

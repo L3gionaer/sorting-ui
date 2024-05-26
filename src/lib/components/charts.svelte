@@ -1,6 +1,9 @@
 <script lang="ts">
   import BarChart from './bar-chart.svelte';
-  import { allSortingAlgorithms, sortingActive } from '../store/sorting.state';
+  import {
+    allSortingAlgorithms,
+    activeSortingAlgorithmsState
+  } from '../store/sorting-algorithms.state.svelte';
   import * as sortingAlgorithmFns from '../helpers/sorting-algorithms';
   import { SortingAlgorithm, type sortingFn } from '../helpers/sorting-types';
 
@@ -11,7 +14,7 @@
 
 <section class="charts">
   {#each allSortingAlgorithms as algo (algo)}
-    {#if $sortingActive.get(algo)}
+    {#if activeSortingAlgorithmsState.algorithms.get(algo)}
       <BarChart sortingAlgorithmFn={getSortingFn(algo)} sortingAlgorithm={algo} />
     {/if}
   {/each}

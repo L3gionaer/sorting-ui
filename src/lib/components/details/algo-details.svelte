@@ -1,46 +1,27 @@
 <script lang="ts">
-  import { sortingMetaData, selectedSortingAlgorithm } from '../../store/sorting.state';
-  import Drawer from '$lib/components/ui/drawer/drawer.svelte';
-  import * as Table from '$lib/components/ui/table';
-  import { onMount } from 'svelte';
+  import {
+    sortingHistoryState,
+    selectedSortingAlgorithmState
+  } from '../../store/sorting-algorithms.state.svelte';
+  import Drawer from '../ui/drawer/drawer.svelte';
+  import * as Table from '../ui/table';
 
-  let isOpen = $state(true);
-  let table: HTMLElement;
+  //let table: HTMLElement; bind:this={table}
   let autoscroll = false;
 
   function close() {
-    selectedSortingAlgorithm.set(undefined);
+    selectedSortingAlgorithmState.selectedAlgorithm = undefined;
     console.log('close');
-    isOpen = false;
   }
 
   $effect(() => {
-    console.log('effect');
-    // implement after switching to runes
-    // if (table && !autoscroll) {
-    //   const scrollableDistance = table.scrollHeight - table.offsetHeight;
-    //   autoscroll = table.scrollTop > scrollableDistance - 20;
-    // }
-
-    // if (autoscroll) {
-    //   table.scrollTo(0, table.scrollHeight);
-    // }
-  });
-
-  onMount(() => {
-    const unsub = selectedSortingAlgorithm.subscribe((algo) => {
-      isOpen = !!algo;
-    });
-
-    return () => {
-      unsub();
-    };
+    console.log('state', selectedSortingAlgorithmState.selectedAlgorithm);
   });
 </script>
 
-{#if isOpen && $selectedSortingAlgorithm}
-  <Drawer on:close={close} title={$selectedSortingAlgorithm}>
-    <div class="h-1/2 overflow-y-auto" bind:this={table}>
+{#if !!selectedSortingAlgorithmState.selectedAlgorithm}
+  <Drawer on:close={close} title={selectedSortingAlgorithmState.selectedAlgorithm}>
+    <div class="h-1/2 overflow-y-auto">
       <Table.Root class="h-1/2">
         <Table.Header>
           <Table.Row>
@@ -52,7 +33,7 @@
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {#each [...($sortingMetaData.get($selectedSortingAlgorithm)?.history ?? [])] as swap, index (swap)}
+          {#each [...(sortingHistoryState.algorithms.get(selectedSortingAlgorithmState.selectedAlgorithm)?.history ?? [])] as swap, index (swap)}
             <Table.Row>
               <Table.Cell>{index}.</Table.Cell>
               <Table.Cell>{swap.prevNumber.index}</Table.Cell>

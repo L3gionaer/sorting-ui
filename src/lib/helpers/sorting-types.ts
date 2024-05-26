@@ -15,11 +15,11 @@ export interface SwapHistory {
   prevNumber: {
     index: number;
     value: number;
-  } 
+  };
   curNumber: {
     index: number;
     value: number;
-  } 
+  };
 }
 
 export type onCompareFn = (num1: number, num2: number) => AsyncGenerator<CompareEventArgs>;

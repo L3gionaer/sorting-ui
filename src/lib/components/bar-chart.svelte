@@ -1,19 +1,21 @@
 <script lang="ts">
-  import * as Card from '$lib/components/ui/card';
-  import { selectedSortingAlgorithm } from '../store/sorting.state';
-  import { useSorting } from '../hooks/useSorting';
-  import type { SortingAlgorithm, sortingFn } from '../helpers/sorting-types';
-
-  export let sortingAlgorithmFn: sortingFn;
-  export let sortingAlgorithm: SortingAlgorithm;
-
-  function selectSortingAlgorithm() {
-    console.log('click select');
-    selectedSortingAlgorithm.set(sortingAlgorithm);
+  interface BarChartProps {
+    sortingAlgorithmFn: sortingFn;
+    sortingAlgorithm: SortingAlgorithm;
   }
 
-  const { sortingNumbers, prevIndex, currentIndex, allSorted, swapCount, compareCount, isSorted } =
-    useSorting(sortingAlgorithmFn, sortingAlgorithm);
+  import * as Card from './ui/card';
+  import { useSorting } from '../hooks/useSorting.state.svelte';
+  import { selectedSortingAlgorithmState } from '../store/sorting-algorithms.state.svelte';
+  import type { SortingAlgorithm, sortingFn } from '../helpers/sorting-types';
+
+  const { sortingAlgorithmFn, sortingAlgorithm }: BarChartProps = $props();
+
+  function selectSortingAlgorithm() {
+    selectedSortingAlgorithmState.selectedAlgorithm = sortingAlgorithm;
+  }
+
+  const sorting = useSorting(sortingAlgorithmFn, sortingAlgorithm);
 </script>
 
 <button on:click={() => selectSortingAlgorithm()}>
@@ -21,35 +23,36 @@
     <Card.Header class="flex-row space-y-0">
       <Card.Title class="leading-0">{sortingAlgorithm}</Card.Title>
       <div class="ml-auto mt-0">
-        <p>compares: {$compareCount}</p>
-        <p>swapped: {$swapCount}</p>
+        <p>compares: {sorting.compareCount}</p>
+        <p>swapped: {sorting.swapCount}</p>
       </div>
     </Card.Header>
     <Card.Content class="mt-auto">
       <div class="flex items-end gap-2 border-b">
-        {#each $sortingNumbers as num, i}
+        {#each sorting.sortingNumbers as num, i}
           <div class="flex flex-col items-center">
             <p>{num}</p>
             <div
               class="
-                                  bar
-                                  w-[50px]
-                                  rounded-tl-md
-                                  rounded-tr-md
-                                  {isSorted(i) || $allSorted
+                bar
+                w-[50px]
+                rounded-tl-md
+                rounded-tr-md
+                {sorting.isSorted(i) || sorting.allSorted
                 ? 'bg-green-600'
-                : i === $currentIndex
+                : i === sorting.currentIndex
                   ? 'bg-blue-600'
-                  : i === $prevIndex
+                  : i === sorting.prevIndex
                     ? 'bg-yellow-600'
-                    : 'bg-primary'}"
+                    : 'bg-primary'}
+              "
               style:height={num * 20 + 'px'}
             ></div>
           </div>
         {/each}
       </div>
       <div class="flex flex-row gap-2 pt-2">
-        {#each $sortingNumbers as _, i}
+        {#each sorting.unsortedNumbers as _, i}
           <div class="flex w-[50px] justify-center">
             <p class="text-xs text-slate-400">{i}</p>
           </div>

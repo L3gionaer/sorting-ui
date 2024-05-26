@@ -1,12 +1,14 @@
 <script lang="ts">
-  import { Button } from '$lib/components/ui/button';
+  import { Button } from './ui/button';
   import { SortingStatus } from '../helpers/sorting-types';
-  import { numbersToSort, setSortingInterval, sortingStatus } from '../store/sorting.state';
+  import { sortingIntervalState } from '../store/sorting-interval.state.svelte';
+  import { sortingStatusState } from '../store/sorting-status.state.svelte';
+  import { unsortedNumbersState } from '../store/unsorted-numbers.state.svelte';
   import AlgoMultiselect from './algo-multiselect.svelte';
   import ModeToggle from './mode-toggle.svelte';
 
-  function getStartStopText(state: SortingStatus) {
-    switch (state) {
+  const startStopText = $derived.by(() => {
+    switch (sortingStatusState.status) {
       case SortingStatus.STARTED:
         return 'pause';
       case SortingStatus.STOPPED:
@@ -16,21 +18,31 @@
       case SortingStatus.EMPTY_STATUS:
         return 'play';
     }
+  });
+
+  function reset() {
+    sortingStatusState.reset();
   }
 
   function generate() {
-    sortingStatus.set(SortingStatus.EMPTY_STATUS);
-    numbersToSort.generate();
-    sortingStatus.set(SortingStatus.RESET);
+    //TODO only one status for that
+    sortingStatusState.empty();
+    unsortedNumbersState.generate();
+    sortingStatusState.reset();
+  }
+
+  function changeInterval() {
+    //TODO fine grained
+    sortingIntervalState.interval = 200;
   }
 </script>
 
 <section>
-  <Button on:click={() => setSortingInterval(200)}>Change interval</Button>
-  <Button on:click={() => sortingStatus.updateStatus($sortingStatus)}
-    >{getStartStopText($sortingStatus)}</Button
-  >
-  <Button on:click={() => sortingStatus.set(SortingStatus.RESET)}>reset</Button>
+  <Button on:click={() => changeInterval()}>Change interval</Button>
+  <Button on:click={() => sortingStatusState.toggleStatus()}>
+    {startStopText}
+  </Button>
+  <Button on:click={() => reset()}>reset</Button>
   <Button on:click={() => generate()}>Generate</Button>
   <AlgoMultiselect></AlgoMultiselect>
   <div class="toggle_container">

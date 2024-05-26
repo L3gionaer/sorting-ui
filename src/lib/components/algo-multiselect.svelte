@@ -1,8 +1,8 @@
 <script lang="ts">
   import ChevronDown from 'lucide-svelte/icons/chevron-down';
-  import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-  import { Button } from '$lib/components/ui/button';
-  import { sortingActive } from '../store/sorting.state';
+  import * as DropdownMenu from './ui/dropdown-menu';
+  import { Button } from './ui/button';
+  import { activeSortingAlgorithmsState } from '../store/sorting-algorithms.state.svelte';
   import AlgoOption from './algo-option.svelte';
 </script>
 
@@ -16,7 +16,7 @@
   <DropdownMenu.Content>
     <div class="dropdown_content">
       <AlgoOption sortingAlgorithm="all"></AlgoOption>
-      {#each [...$sortingActive] as [algo] (algo)}
+      {#each [...activeSortingAlgorithmsState.algorithms] as [algo] (algo)}
         <AlgoOption sortingAlgorithm={algo}></AlgoOption>
       {/each}
     </div>

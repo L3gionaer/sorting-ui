@@ -1,7 +1,6 @@
 <script lang="ts">
-  import * as Table from '$lib/components/ui/table';
-  import { sortingMetaData } from '$lib/store/sorting.state';
-
+  import * as Table from './ui/table';
+  import { sortingHistoryState } from '../store/sorting-algorithms.state.svelte';
   //TODO more info
 </script>
 
@@ -14,7 +13,7 @@
     </Table.Row>
   </Table.Header>
   <Table.Body>
-    {#each $sortingMetaData as [algo, data], i}
+    {#each sortingHistoryState.algorithms as [algo, data], i}
       <Table.Row>
         <Table.Cell>{i + 1}</Table.Cell>
         <Table.Cell>{algo}</Table.Cell>

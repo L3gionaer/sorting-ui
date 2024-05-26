@@ -5,7 +5,7 @@ import {
   type AfterSortingEventArgs
 } from './sorting-types';
 
-import { getSortingInterval } from '../store/sorting.state';
+import { sortingIntervalState } from '../store/sorting-interval.state.svelte';
 
 export function genRandomNumbers() {
   return [...Array(12).keys()].map(() => Math.round(Math.random() * (10 - 1) + 1));
@@ -26,7 +26,7 @@ export async function* onCompare(
 ): AsyncGenerator<CompareEventArgs> {
   yield { type: SortingEventType.COMPARE, prevIndex, curIndex };
 
-  await delay(getSortingInterval());
+  await delay(sortingIntervalState.interval);
   await resolveWhenPlaying;
 }
 
