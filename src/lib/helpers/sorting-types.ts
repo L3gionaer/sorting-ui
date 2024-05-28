@@ -20,6 +20,7 @@ export interface SwapHistory {
     index: number;
     value: number;
   };
+  numbers: number[];
 }
 
 export type onCompareFn = (num1: number, num2: number) => AsyncGenerator<CompareEventArgs>;
@@ -46,6 +47,7 @@ export enum SortingStatus {
   STARTED = 'started',
   STOPPED = 'stopped',
   RESET = 'reset',
+  RESET_TO_HISTORY = 'resetToHistory',
   EMPTY_STATUS = 'emptyStatus'
 }
 

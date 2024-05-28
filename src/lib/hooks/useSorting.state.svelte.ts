@@ -2,7 +2,8 @@ import {
   type sortingFn,
   SortingStatus,
   SortingEventType,
-  SortingAlgorithm
+  SortingAlgorithm,
+  type SwapHistory
 } from '../helpers/sorting-types';
 import { resolver, setResolver, onCompare, onSwap, afterSorting } from '../helpers/sorting-helpers';
 import { unsortedNumbersState } from '../store/unsorted-numbers.state.svelte';
@@ -30,6 +31,7 @@ export function useSorting(sortingAlgorithmFn: sortingFn, sortingAlgorithm: Sort
   }
 
   function resetState() {
+    //sortingHistoryState.clearHistory();
     sortingNumbers = [...unsortedNumbers];
     prevIndex = 0;
     currentIndex = 0;
@@ -38,6 +40,24 @@ export function useSorting(sortingAlgorithmFn: sortingFn, sortingAlgorithm: Sort
     allSorted = false;
     sortedIndexes = undefined;
     started = false;
+  }
+
+  function resetToHistory() {
+    const selectedIndex = sortingHistoryState.selectedIndex!;
+    const history = sortingHistoryState.getHistory(sortingAlgorithm)?.[selectedIndex];
+
+    //TODO only for the selected algo
+    //TODO able to play? would not
+    if (history) {
+      sortingNumbers = [...history.numbers];
+      prevIndex = history.prevNumber.index;
+      currentIndex = history.curNumber.index;
+      swapCount = selectedIndex;
+      compareCount = 0; //TODO
+      allSorted = false; //TODO JSON.stringify([...history.numbers]) === JSON.stringify([...sortingNumbers]);
+      sortedIndexes = undefined; //TODO
+      started = false;
+    }
   }
 
   function setSortedIndexes(index: number, isRange = false) {
@@ -105,6 +125,9 @@ export function useSorting(sortingAlgorithmFn: sortingFn, sortingAlgorithm: Sort
       case SortingStatus.RESET:
         resetState();
         break;
+      case SortingStatus.RESET_TO_HISTORY:
+        resetToHistory();
+        break;
     }
   });
 
@@ -129,6 +152,9 @@ export function useSorting(sortingAlgorithmFn: sortingFn, sortingAlgorithm: Sort
     },
     get unsortedNumbers() {
       return unsortedNumbers;
+    },
+    get sortedIndexes() {
+      return sortedIndexes;
     },
     isSorted,
     resetState

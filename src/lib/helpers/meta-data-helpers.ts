@@ -14,6 +14,7 @@ export function updateSortHistory(sortingAlgorithm: SortingAlgorithm, swapArgs: 
     curNumber: {
       index: curIndex,
       value: array[prevIndex]
-    }
+    },
+    numbers: [...array]
   });
 }

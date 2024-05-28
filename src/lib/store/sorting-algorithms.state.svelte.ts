@@ -15,6 +15,8 @@ function createSortingHistoryState() {
     )
   );
 
+  let selectedIndex = $state<number | undefined>(undefined);
+
   function updateRanking(sortAlgo: SortingAlgorithm, sortedNumbers: number) {
     const newAlgorithms = new Map<SortingAlgorithm, SortingMetaData>();
 
@@ -58,6 +60,15 @@ function createSortingHistoryState() {
   return {
     get algorithms() {
       return algorithms;
+    },
+    set selectedIndex(index: number | undefined) {
+      selectedIndex = index;
+    },
+    get selectedIndex() {
+      return selectedIndex;
+    },
+    getHistory(algo: SortingAlgorithm) {
+      return algorithms.get(algo)?.history;
     },
     updateRanking,
     updateHistory,

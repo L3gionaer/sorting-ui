@@ -17,6 +17,8 @@
         return 'play';
       case SortingStatus.EMPTY_STATUS:
         return 'play';
+      case SortingStatus.RESET_TO_HISTORY:
+        return 'play';
     }
   });
 

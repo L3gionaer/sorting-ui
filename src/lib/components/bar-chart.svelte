@@ -38,7 +38,7 @@
                 w-[50px]
                 rounded-tl-md
                 rounded-tr-md
-                {sorting.isSorted(i) || sorting.allSorted
+                {sorting.sortedIndexes?.includes(i) || sorting.allSorted
                 ? 'bg-green-600'
                 : i === sorting.currentIndex
                   ? 'bg-blue-600'

@@ -14,18 +14,25 @@ function createStatusState() {
         case SortingStatus.STARTED:
           newStatus = SortingStatus.STOPPED;
           break;
+        //TODO combine
+        case SortingStatus.EMPTY_STATUS:
+          newStatus = SortingStatus.STARTED;
+          break;
         case SortingStatus.STOPPED:
           newStatus = SortingStatus.STARTED;
           break;
         case SortingStatus.RESET:
           newStatus = SortingStatus.STARTED;
-        case SortingStatus.EMPTY_STATUS:
+          break;
+        case SortingStatus.RESET_TO_HISTORY:
           newStatus = SortingStatus.STARTED;
+          break;
       }
 
       status = newStatus;
     },
     reset: () => (status = SortingStatus.RESET),
+    resetToHistory: () => (status = SortingStatus.RESET_TO_HISTORY),
     empty: () => (status = SortingStatus.EMPTY_STATUS)
   };
 }
